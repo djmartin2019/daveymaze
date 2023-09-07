@@ -157,19 +157,29 @@
 </script>
 
 <div
-	class="flex items-center justify-center min-h-screen min-w-screen bg-gradient-to-br variant-gradient-secondary-tertiary text-white"
+	class="flex items-center justify-center bg-gradient-to-r from-secondary to-primary variant-gradient-secondary-tertiary text-white min-w-screen min-h-screen"
 >
-	<div class="bg-opacity-50 backdrop-blur-md p-8 rounded-lg">
-		<h1 class="text-6xl font-bold mb-4 text-center">Welcome to DaveyMaze!</h1>
-		<p class="text-xl mb-8 text-center">This is a pathfinding visualizer built with Svelte.</p>
-		<div class="flex justify-center items-center variant-filled-primary p-10 rounded-md mb-5 mt-5">
+	<div
+		class="pt-5 pb-5 rounded-lg flex flex-col items-center variant-filled-error w-1/2 shadow-lg shadow-black"
+	>
+		<h1 class="text-6xl font-bold mb-4 text-center text-shadow">Welcome to DaveyMaze!</h1>
+		<p class="text-xl mb-8 text-center w-1/2 text-shadow font-xl">
+			"Dijkstra's Algorithm is a smart way to find the shortest path between two points on a map.
+			Imagine you're at point A and want to get to point B. This algorithm looks at all the possible
+			routes you could take and picks the quickest one for you, just like a GPS does when you're
+			driving!
+		</p>
+
+		<div
+			class="flex justify-center items-center variant-filled-tertiary p-10 rounded-md mb-5 mt-5 shadow-md shadow-black"
+		>
 			<!-- Grid container -->
 			<div class="grid grid-cols-[repeat(10,minmax(0,1fr))] gap-2">
 				{#each grid as row, rowIndex}
 					{#each row as cell, colIndex}
 						<!-- Individual grid cell -->
 						<div
-							class="w-16 h-16 border border-gray-300 flex items-center justify-center cursor-pointer"
+							class="w-16 h-16 border border-gray-300 flex items-center justify-center cursor-pointer shadow-md shadow-black"
 							style="background-color: {cell === 'start'
 								? 'blue'
 								: cell === 'end'
@@ -198,26 +208,26 @@
 		<div class="flex justify-center space-x-4">
 			<button
 				on:click={() => (currentAction = 'start')}
-				class="variant-filled-secondary hover:variant-filled-secondary-800 text-white font-bold py-2 px-4 rounded"
+				class="variant-filled-secondary hover:variant-filled-secondary-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
 			>
 				Starting Position
 			</button>
 			<button
 				on:click={() => (currentAction = 'end')}
-				class="variant-filled-primary hover:variant-filled-primary-800 text-white font-bold py-2 px-4 rounded"
+				class="variant-filled-primary hover:variant-filled-primary-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
 			>
 				Ending Position
 			</button>
 			<button
 				on:click={() => dijkstra(startingPosition, endingPosition, distance)}
-				class="variant-filled-error hover:variant-filled-error-800 text-white font-bold py-2 px-4 rounded"
+				class="variant-filled-error hover:variant-filled-error-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
 			>
 				Pathfind
 			</button>
 			<button
 				disabled={isAlgorithmRunning}
 				on:click={resetGrid}
-				class="variant-filled-error text-white font-bold py-2 px-4 rounded {isAlgorithmRunning
+				class="variant-filled-error text-white font-bold py-2 px-4 rounded shadow-md shadow-black {isAlgorithmRunning
 					? 'disabled-class'
 					: 'enabled-class'}"
 			>
