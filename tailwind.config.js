@@ -35,7 +35,7 @@ export default {
 			);
 		},
 		skeleton({
-			themes: { preset: ['wintry'] }
+			themes: { preset: ['wintry', 'rocket', 'modern', 'seafoam'] }
 		})
 	]
 };

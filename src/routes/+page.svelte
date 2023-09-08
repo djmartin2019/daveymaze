@@ -23,6 +23,12 @@
 	let distance = Array.from({ length: rows }, () => Array(cols).fill(Infinity));
 	let parent = Array.from({ length: rows }, () => Array(cols).fill(null));
 
+	let selectedTheme = 'wintry'; // Default theme
+
+	function changeTheme() {
+		document.body.setAttribute('data-theme', selectedTheme);
+	}
+
 	async function dijkstra(startingPosition, endingPosition, distance) {
 		if (startingPosition === null || endingPosition === null || distance === null) {
 			errorMessage =
@@ -157,21 +163,34 @@
 </script>
 
 <div
-	class="flex items-center justify-center bg-gradient-to-r from-secondary to-primary variant-gradient-secondary-tertiary text-white min-w-screen min-h-screen"
+	class="flex items-center justify-center bg-gradient-to-br from-primary-800 to-secondary-400 text-white w-screen h-screen overflow-hidden"
 >
 	<div
-		class="pt-5 pb-5 rounded-lg flex flex-col items-center variant-filled-error w-1/2 shadow-lg shadow-black"
+		class="pt-10 pb-10 rounded-lg flex flex-col items-center bg-secondary-600 w-full md:w-1/2 shadow-lg shadow-black"
 	>
-		<h1 class="text-6xl font-bold mb-4 text-center text-shadow">Welcome to DaveyMaze!</h1>
-		<p class="text-xl mb-8 text-center w-1/2 text-shadow font-xl">
+		<h1 class="text-4xl md:text-6xl font-bold mb-4 text-center text-shadow text-white">
+			Welcome to DaveyMaze!
+		</h1>
+		<p class="text-lg md:text-xl mb-8 text-center w-4/5 md:w-1/2 text-shadow font-xl text-white">
 			"Dijkstra's Algorithm is a smart way to find the shortest path between two points on a map.
 			Imagine you're at point A and want to get to point B. This algorithm looks at all the possible
 			routes you could take and picks the quickest one for you, just like a GPS does when you're
 			driving!
 		</p>
 
+		<select
+			bind:value={selectedTheme}
+			on:change={changeTheme}
+			class="w-52 border rounded shadow-sm text-lg focus:outline-none focus:border-blue-500 text-black"
+		>
+			<option value="wintry">Wintry</option>
+			<option value="modern">Modern</option>
+			<option value="rocket">Rocket</option>
+			<option value="seafoam">Seafoam</option>
+		</select>
+
 		<div
-			class="flex justify-center items-center variant-filled-tertiary p-10 rounded-md mb-5 mt-5 shadow-md shadow-black"
+			class="flex justify-center items-center variant-filled-primary p-10 rounded-md mb-5 mt-5 shadow-md shadow-black"
 		>
 			<!-- Grid container -->
 			<div class="grid grid-cols-[repeat(10,minmax(0,1fr))] gap-2">
@@ -179,15 +198,15 @@
 					{#each row as cell, colIndex}
 						<!-- Individual grid cell -->
 						<div
-							class="w-16 h-16 border border-gray-300 flex items-center justify-center cursor-pointer shadow-md shadow-black"
+							class="w-8 md:w-16 h-8 md:h-16 border border-gray-300 flex items-center justify-center cursor-pointer shadow-md shadow-black text-white"
 							style="background-color: {cell === 'start'
-								? 'blue'
+								? 'green'
 								: cell === 'end'
 								? 'red'
 								: cell === 'checked'
 								? 'black'
 								: cell === 'shortestPath'
-								? 'green'
+								? 'lime'
 								: 'white'}"
 							on:click={() => setPoint(rowIndex, colIndex)}
 						>
@@ -205,29 +224,29 @@
 				<span class="text-white-500 font-bold text-xl">{timerMessage}</span>
 			{/if}
 		</div>
-		<div class="flex justify-center space-x-4">
+		<div class="flex flex-wrap justify-center space-x-2 md:space-x-4 space-y-2 md:space-y-0">
 			<button
 				on:click={() => (currentAction = 'start')}
-				class="variant-filled-secondary hover:variant-filled-secondary-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
+				class="rounded-md bg-primary-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-black hover:shadow-slate-500"
 			>
 				Starting Position
 			</button>
 			<button
 				on:click={() => (currentAction = 'end')}
-				class="variant-filled-primary hover:variant-filled-primary-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
+				class="rounded-md bg-secondary-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-secondary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 shadow-black hover:shadow-slate-500"
 			>
 				Ending Position
 			</button>
 			<button
 				on:click={() => dijkstra(startingPosition, endingPosition, distance)}
-				class="variant-filled-error hover:variant-filled-error-800 text-white font-bold py-2 px-4 rounded shadow-md shadow-black"
+				class="rounded-md bg-tertiary-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-tertiary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary-500 shadow-black hover:shadow-slate-500"
 			>
 				Pathfind
 			</button>
 			<button
 				disabled={isAlgorithmRunning}
 				on:click={resetGrid}
-				class="variant-filled-error text-white font-bold py-2 px-4 rounded shadow-md shadow-black {isAlgorithmRunning
+				class="rounded-md bg-error-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-error-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-500 shadow-black hover:shadow-slate-500 {isAlgorithmRunning
 					? 'disabled-class'
 					: 'enabled-class'}"
 			>
@@ -238,13 +257,18 @@
 </div>
 
 <style>
+	body {
+		margin: 0;
+		padding: 0;
+		background: linear-gradient(to right, from-secondary, to-primary);
+		background-size: cover;
+		background-attachment: fixed;
+		min-height: 100vh;
+		min-width: 100vw;
+	}
+
 	.disabled-class {
 		background-color: grey;
 		cursor: not-allowed;
-	}
-
-	.enabled-class {
-		background-color: red;
-		cursor: pointer;
 	}
 </style>
