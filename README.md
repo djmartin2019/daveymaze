@@ -44,7 +44,7 @@ DaveyMaze is a web-based pathfinding visualizer built with Svelte. It allows use
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/daveymaze.git
+    git clone https://github.com/djmartin2019/daveymaze.git
     ```
 2. Navigate to the project directory:
     ```bash
